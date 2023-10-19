@@ -1,0 +1,285 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  @apply bg-mainBlack;
+  font-family: "Roboto", sans-serif;
+  scroll-behavior: smooth;
+}
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  @apply bg-mainBlack2 rounded-lg;
+}
+::-webkit-scrollbar-track {
+  @apply bg-mainGray;
+}
+
+.container {
+  @apply max-w-[1300px] w-full mx-auto px-3;
+}
+
+#nprogress .bar {
+  background-color: #d90429 !important;
+}
+
+#nprogress .spinner-icon {
+  border-top-color: #d90429 !important;
+  border-left-color: #d90429 !important;
+}
+
+.ant-dropdown-menu-item.ant-dropdown-menu-item-only-child {
+  @apply !p-0;
+}
+
+/*
+=========================
+  Loading Screen Start
+=========================
+*/
+
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  @apply bg-mainDarkRed;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+
+/*
+=========================
+  Loading Screen End
+=========================
+*/
+/*
+=========================
+ Navbar Start
+=========================
+*/
+.search-wrapper .search-input.css-dev-only-do-not-override-nnuwmp {
+  @apply !w-full !h-[44px] !border-none !outline-none focus:!shadow-none;
+}
+/*
+=========================
+  Navbar End
+=========================
+*/
+
+/*
+=========================
+  Home Start
+=========================
+*/
+.home-banner .swiper-pagination {
+  @apply flex items-center justify-center md:justify-end !pr-[100px] lg:!pr-[130px]  !left-1/2 -translate-x-1/2 container !bottom-[32%] lg:!bottom-[35%] gap-[100px] lg:gap-[130px];
+}
+.home-banner .swiper-pagination-bullet {
+  background-color: transparent;
+}
+.home-banner .swiper-pagination-bullet:nth-child(1)::after {
+  content: "";
+  background-image: url("/assets/venom.jpg");
+  @apply lg:w-[130px] lg:h-[220px] w-[100px] h-[180px] z-40 block bg-cover rounded-xl bg-center;
+}
+.home-banner .swiper-pagination-bullet:nth-child(2)::after {
+  content: "";
+  background-image: url("/assets/heimer.jpg");
+  @apply lg:w-[130px] lg:h-[220px] w-[100px] h-[180px] z-40 block bg-cover rounded-xl bg-center;
+}
+.home-banner .swiper-pagination-bullet:nth-child(3)::after {
+  content: "";
+  background-image: url("/assets/banner4-icon.jpg");
+  @apply lg:w-[130px] lg:h-[220px] w-[100px] h-[180px] z-40 block bg-cover rounded-xl bg-center;
+}
+.home-banner .swiper-pagination-bullet.swiper-pagination-bullet-active::after {
+  @apply shadow-lg shadow-mainDarkRed translate-y-[-10px] duration-300;
+}
+
+.swiper-slide .swiper-box {
+  @apply lg:!top-1/3 !top-[30%] opacity-0 duration-1000;
+}
+.swiper-slide.swiper-slide-active .swiper-box {
+  @apply lg:!top-1/2 !top-[40%] opacity-100 duration-1000;
+}
+
+.animate-banner-btn {
+  animation: shadow-animation 2s infinite;
+  -webkit-animation: shadow-animation 2s infinite;
+}
+@keyframes shadow-animation {
+  0% {
+    box-shadow: 0 0 40px 0px #ef233c;
+  }
+  50% {
+    box-shadow: 0 0 40px 10px #ef233c;
+  }
+  100% {
+    box-shadow: 0 0 40px 0px #ef233c;
+  }
+}
+
+.list-swiper .swiper-button-prev,
+.list-swiper .swiper-button-next {
+  @apply text-mainWhite opacity-0 duration-300;
+}
+.list-swiper:hover .swiper-button-prev {
+  @apply text-mainWhite opacity-100 duration-300;
+}
+.list-swiper:hover .swiper-button-next {
+  @apply text-mainWhite opacity-100 duration-300;
+}
+
+.custom-duration {
+  transition: top 300ms linear;
+  -webkit-transition: top 300ms linear;
+  -moz-transition: top 300ms linear;
+  -ms-transition: top 300ms linear;
+  -o-transition: top 300ms linear;
+}
+/*
+=========================
+  Home End
+=========================
+*/
+
+/*
+=========================
+  Details Start
+=========================
+*/
+
+.trailer-swiper .swiper-button-prev,
+.trailer-swiper .swiper-button-next {
+  @apply text-mainWhite  duration-300 !opacity-0;
+}
+
+.comment-send-input .ant-input-data-count {
+  color: white;
+}
+.comment-send-input .ant-input {
+  @apply bg-mainBlack text-white border-none placeholder:text-mainGray/90;
+}
+.comment-send-input {
+  @apply border-none bg-mainBlack2;
+}
+.comment-report-modal .ant-modal-content {
+  @apply bg-mainBlack2  text-white;
+}
+.comment-report-modal .ant-modal-title {
+  @apply bg-mainBlack2 text-white;
+}
+.comment-report-modal .ant-modal-close {
+  @apply bg-mainBlack2 text-white hover:text-white;
+}
+
+/* width */
+.castlist-scroll::-webkit-scrollbar {
+  @apply h-2 rounded-full;
+}
+
+/* Track */
+.castlist-scroll::-webkit-scrollbar-track {
+  @apply rounded-full;
+}
+
+/* Handle */
+.castlist-scroll::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-mainBlack2;
+}
+
+/*
+=========================
+  Details End
+=========================
+*/
+
+/*
+=========================
+  Movies Start
+=========================
+*/
+.filters .ant-collapse-content {
+  @apply !bg-mainBlack2 text-white !border-b-0;
+}
+.filters .ant-collapse-item {
+  @apply !border-b-0;
+}
+.filters .ant-collapse-header-text {
+  @apply text-white;
+}
+.filters .ant-collapse-expand-icon {
+  @apply text-white;
+}
+.rate-range .ant-slider-mark-text {
+  @apply !text-gray-600;
+}
+
+.rate-range .ant-slider-mark-text-active {
+  @apply !text-white;
+}
+
+/*
+=========================
+  Movies End
+=========================
+*/
