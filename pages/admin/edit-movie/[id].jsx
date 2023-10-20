@@ -2,86 +2,55 @@ import { Button, Divider, Form, Input, message } from "antd";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { BsBookmarkPlus, BsFillPersonFill, BsTv } from "react-icons/bs";
 import { MdLocalMovies, MdOutlineLogout } from "react-icons/md";
 import translate from "translate";
 const { TextArea } = Input;
-const addMovie = () => {
+const editMovie = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedResult, setSearchedResult] = useState({});
+  const [movie_res, setMovie_res] = useState({});
+
   const [form] = Form.useForm();
   const searchInputRef = useRef(null);
-  const handleSearch = async (e) => {
-    if (e.target.value.trim() === "") {
-      setSearchQuery(e.target.value.trim());
-    }
-    setSearchQuery(e.target.value);
+  const router = useRouter();
+  const params = router.query;
 
-    if (e.target.value.trim() === "") {
-      setSearchResult([]);
-    } else {
-      const res = await axios.get(
-        `https://api.themoviedb.org/3/search/multi?include_adult=false&language=en-US&page=1&query=${e.target.value}&api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}`
-      );
-
-      setSearchResult(res?.data?.results?.slice(0, 10));
-    }
-  };
-  const getTranslate = async (textToTranslate) => {
+  const getMovie = async (id) => {
     try {
-      const text = await translate(textToTranslate, "tr");
+      const res = await axios.get(`/api/movie/edit?id=${id}`);
+      setMovie_res(res.data);
       form.setFieldsValue({
-        overview: text,
+        original_title: res.data?.movie_data?.movie?.original_title,
+        search: res.data?.movie_data?.movie?.original_title,
+        date: res.data?.movie_data?.movie?.release_date,
+        poster_path:
+          `https://www.themoviedb.org/t/p/w600_and_h900_bestv2` +
+          res.data?.data?.movie_data?.movie?.poster_path,
+        vote: res.data?.movie_data?.movie?.vote_average,
+        overview: res.data?.movie_overview,
+        video_path: res.data?.movie_url,
+        type: "Movie",
       });
-    } catch (error) {}
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
-    form.setFieldsValue({
-      original_title: searchedResult?.movie?.original_title,
-      search: searchedResult?.movie?.original_title,
-      date: searchedResult?.movie?.release_date,
-      poster_path:
-        `https://www.themoviedb.org/t/p/w600_and_h900_bestv2` +
-        searchedResult?.movie?.poster_path,
-      vote: searchedResult?.movie?.vote_average,
-      type: "Movie",
-    });
-    getTranslate(searchedResult?.movie?.overview);
-  }, [searchedResult]);
-  const movieDetailsPopulated = async (id) => {
-    try {
-      const populatedMovieRes = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}`
-      );
-
-      const castAndCrewRes = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US&api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}`
-      );
-
-      const videoRes = await axios.get(
-        `https://api.themoviedb.org/3/movie/${id}/videos?language=en-US&api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}`
-      );
-
-      const data = {
-        movie: populatedMovieRes?.data,
-        cast: castAndCrewRes?.data,
-        video: videoRes?.data?.results,
-      };
-      setSearchedResult(data);
-    } catch (error) {
-      // Hata yakalama işlemleri burada yapılabilir
-      console.error("Hata oluştu: ", error);
+    if (params.id) {
+      getMovie(params.id);
     }
-  };
+  }, [params.id]);
+
   const onFinish = async (values) => {
     try {
-      const res = await axios.post(`/api/movie/create`, {
-        movieData: searchedResult,
-        movieOverview: values.overview,
-        movieId: searchedResult.movie.id,
-        movieURL: values.video_path,
+      const res = await axios.patch(`/api/movie/edit`, {
+        movie_url: values.video_path,
+        id: movie_res._id,
       });
       //form.resetFields();
       message.success(`Basarili`);
@@ -93,12 +62,12 @@ const addMovie = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-black">Add Movie</h1>
+      <h1 className="text-2xl font-bold text-black">Edit Movie URL</h1>
       <Divider className=" pb-4" />
       <Form form={form} layout="vertical" name="basic" onFinish={onFinish}>
         <div className="flex lg:flex-row flex-col w-full justify-between gap-3  ">
           <div className="lg:w-8/12  w-full flex flex-col">
-            <div className="w-full  relative">
+            {/* <div className="w-full  relative">
               <Form.Item name="search">
                 <Input
                   onChange={(e) => handleSearch(e)}
@@ -196,7 +165,7 @@ const addMovie = () => {
                   </div>
                 </div>
               ) : null}
-            </div>
+            </div> */}
             <div className="flex w-full  gap-2 ">
               <Form.Item name="original_title" label="Title:" className="w-2/3">
                 <Input
@@ -278,11 +247,14 @@ const addMovie = () => {
                 fill
                 className="object-cover object-center    rounded-md"
                 src={`${
-                  searchedResult?.movie?.poster_path
-                    ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${searchedResult?.movie?.poster_path}`
+                  movie_res?.movie_data?.movie?.poster_path
+                    ? `https://www.themoviedb.org/t/p/w600_and_h900_bestv2/${movie_res?.movie_data?.movie?.poster_path}`
                     : "/assets/default-img.png"
                 }`}
-                alt={searchedResult?.movie?.original_title || "default-img.png"}
+                alt={
+                  movie_res?.movie_data?.movie?.original_title ||
+                  "default-img.png"
+                }
               />{" "}
             </div>
           </div>
@@ -292,4 +264,4 @@ const addMovie = () => {
   );
 };
 
-export default addMovie;
+export default editMovie;

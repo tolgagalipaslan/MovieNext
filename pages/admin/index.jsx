@@ -10,6 +10,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import { Input } from "antd";
+import { useRouter } from "next/router";
 const index = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -18,7 +19,7 @@ const index = () => {
   const [genreData, setGenreData] = useState([]);
   const searchInput = useRef(null);
   const [searchedColumn, setSearchedColumn] = useState("");
-
+  const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
   const success = () => {
     messageApi.open({
@@ -210,7 +211,7 @@ const index = () => {
               className="w-fit bg-blue-500 hover:bg-blue-400  duration-300"
               icon={<EditOutlined />}
               onClick={() => {
-                router.push(`/admin`);
+                router.push(`/admin/edit-movie/${action._id}`);
               }}
             >
               Edit

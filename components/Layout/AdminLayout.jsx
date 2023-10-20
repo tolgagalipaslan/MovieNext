@@ -6,7 +6,7 @@ import {
   QrcodeOutlined,
   UnorderedListOutlined,
   PlayCircleOutlined,
-  UserAddOutlined 
+  UserAddOutlined,
 } from "@ant-design/icons";
 import { Router, useRouter } from "next/router";
 import { Button, Layout, Menu, theme } from "antd";
@@ -27,7 +27,7 @@ const AdminLayout = ({ children }) => {
   const items = [
     {
       key: "1",
-      icon:<PlayCircleOutlined />,
+      icon: <PlayCircleOutlined />,
       label: "All Movies",
       onClick: () => {
         router.push("/admin");
@@ -41,20 +41,20 @@ const AdminLayout = ({ children }) => {
         router.push("/admin/add-movie");
       },
     },
-    {
-      key: "3",
-      icon: <UserAddOutlined />,
-      label: "Users",
-      onClick: () => {
-        router.push("/admin/allProducts");
-      },
-    },
+    // {
+    //   key: "3",
+    //   icon: <UserAddOutlined />,
+    //   label: "Users",
+    //   onClick: () => {
+    //     router.push("/admin/user");
+    //   },
+    // },
     {
       key: "4",
       icon: <UnorderedListOutlined />,
       label: "Reports",
       onClick: () => {
-        router.push("/admin/allProducts");
+        router.push("/admin/reports");
       },
     },
     {
@@ -70,15 +70,15 @@ const AdminLayout = ({ children }) => {
   ];
 
   const getActiveKey = () => {
-    if (pathname === "/admin" || pathname === "/admin/qrCodes") {
+    if (pathname === "/admin") {
       return "1";
     } else if (
-      pathname === "/admin/product" ||
-      pathname === "/admin/category"
+      pathname === "/admin/add-movie" ||
+      pathname === "/admin/edit-movie"
     ) {
       return "2";
-    } else if (pathname === "/admin/allProducts") {
-      return "3";
+    } else if (pathname === "/admin/reports") {
+      return "4";
     } else {
       return "10";
     }
