@@ -190,18 +190,19 @@ const Trailer = ({ video, cast }) => {
             <Title>Trailers & Featurette</Title>
           </div>
           <ConfigProvider
-            theme={{token :{
-              colorPrimaryBorder:"#ffc107",
-              colorBorderSecondary:"#ffc107",
-              colorBgContainer:"#ffc107",
-              colorPrimary:"#000",
-              margin:0
-            },
+            theme={{
+              token: {
+                colorPrimaryBorder: "#ffc107",
+                colorBorderSecondary: "#ffc107",
+                colorBgContainer: "#ffc107",
+                colorPrimary: "#000",
+                margin: 0,
+              },
               components: {
                 Tabs: {
                   cardBg: `#fff`,
-                  cardGutter:3,
-                  colorBorder:"#00b96b"
+                  cardGutter: 3,
+                  colorBorder: "#00b96b",
                 },
               },
             }}
