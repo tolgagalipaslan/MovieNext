@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import { Input } from "antd";
 import { useRouter } from "next/router";
-const index = () => {
+const Admin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [deleteLoading, setDeleteLoading] = useState(false);
   const [sortedInfo, setSortedInfo] = useState({});
@@ -285,4 +285,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Admin;

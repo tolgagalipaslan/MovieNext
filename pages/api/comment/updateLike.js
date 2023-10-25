@@ -1,9 +1,6 @@
-import { isValidObjectId } from "mongoose";
-import { NextResponse } from "next/server";
 import dbConnect from "@/lib/dbConnect";
-import { message } from "antd";
 import Comment from "@/models/Comment";
-import Post from "@/models/Post";
+import { isValidObjectId } from "mongoose";
 
 import { formatComment, isUser } from "@/utils/utils";
 // Update like method

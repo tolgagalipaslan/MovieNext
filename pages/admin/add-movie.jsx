@@ -7,7 +7,7 @@ import { BsBookmarkPlus, BsFillPersonFill, BsTv } from "react-icons/bs";
 import { MdLocalMovies, MdOutlineLogout } from "react-icons/md";
 import translate from "translate";
 const { TextArea } = Input;
-const addMovie = () => {
+const AddMovie = () => {
   const [searchResult, setSearchResult] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchedResult, setSearchedResult] = useState({});
@@ -292,4 +292,4 @@ const addMovie = () => {
   );
 };
 
-export default addMovie;
+export default AddMovie;
