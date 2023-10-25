@@ -17,6 +17,7 @@ const Comment = ({
   showControls,
 }) => {
   const [replayDropdown, setReplayDropdown] = useState(false);
+  const [replayDropdown2, setReplayDropdown2] = useState(false);
   const [replayComment, setReplayComment] = useState("");
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [editComment, setEditComment] = useState(comment?.content);
