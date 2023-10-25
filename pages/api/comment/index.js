@@ -60,7 +60,7 @@ const handle = async (req, res) => {
         return res.status(403).json({
           message: "Movie doesn't exist",
         });
-      // Creating a new comment
+      // Creating a new commen
       // Creating a new comment
       const comment = new Comment({
         content,

@@ -38,7 +38,6 @@ export default MovieDetails;
 export const getServerSideProps = async (context) => {
   const slug = context.query.slug;
   const id = slug.split("-")[0];
-  console.log(id);
   try {
     const populatedMovieRes = await axios.get(
       `https://api.themoviedb.org/3/movie/${id}?language=en-US&api_key=${process.env.NEXT_PUBLIC_TMDB_KEY}`

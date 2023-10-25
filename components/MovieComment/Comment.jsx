@@ -1,12 +1,11 @@
-import Image from "next/image";
-import React, { useEffect, useState } from "react";
-import { AiFillEdit, AiOutlineHeart } from "react-icons/ai";
-import { BsFillReplyAllFill } from "react-icons/bs";
-import { FaRegPaperPlane } from "react-icons/fa";
-import { ImBin } from "react-icons/im";
-import { message, Avatar, Modal } from "antd";
 import useAuth from "@/hooks/useAuth";
-import Link from "next/link";
+import { Avatar, Modal, message } from "antd";
+import { useEffect, useState } from "react";
+import { AiFillEdit } from "react-icons/ai";
+import { BiSolidTrashAlt } from "react-icons/bi";
+import { BsFillReplyAllFill } from "react-icons/bs";
+import { FaRegPaperPlane, FaTrash } from "react-icons/fa";
+import { IoMdTrash } from "react-icons/io";
 
 const Comment = ({
   comment,
@@ -17,12 +16,13 @@ const Comment = ({
   showControls,
 }) => {
   const [replayDropdown, setReplayDropdown] = useState(false);
-  const [replayDropdown2, setReplayDropdown2] = useState(false);
   const [replayComment, setReplayComment] = useState("");
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [editComment, setEditComment] = useState(comment?.content);
   const [editDropdown, setEditDropdown] = useState(false);
-  const { owner, createdAt, content, likedByOwner, likes, likedBy } = comment;
+  const [tarihIfadesi, setTarihIfadesi] = useState("");
+  const { owner, createdAt, content, likedByOwner, likes, likedBy, username } =
+    comment;
   const userProfile = useAuth();
   const handleCommentSubmit = (comment, e) => {
     e.preventDefault();
@@ -36,7 +36,56 @@ const Comment = ({
     setReplayComment("");
     setReplayDropdown(false);
   };
+  useEffect(() => {
+    console.log(comment);
+    const turkceTarihIfadesi = tarihSaatTurkce(comment?.createdAt);
+    setTarihIfadesi(turkceTarihIfadesi);
+    console.log(turkceTarihIfadesi);
+  }, []);
 
+  function tarihSaatTurkce(tarihSaat) {
+    // JavaScript Date nesnesine çevirme
+    var tarihNesnesi = new Date(tarihSaat);
+
+    // Tarih ve saat bilgisini Türkçe olarak biçimlendirme
+    var gun = tarihNesnesi.getDate();
+    var ay = tarihNesnesi.getMonth() + 1; // Ay 0'dan başladığı için 1 ekliyoruz
+    var yil = tarihNesnesi.getFullYear();
+    var saat = tarihNesnesi.getHours();
+    var dakika = tarihNesnesi.getMinutes();
+
+    // Türkçe tarih ifadesini oluşturma
+    var tarihIfadesi =
+      gun +
+      " " +
+      ayAdi(ay) +
+      " saat " +
+      saat +
+      ":" +
+      dakika +
+      "'de paylaşıldı.";
+
+    // Ay adını döndüren bir yardımcı işlev
+    function ayAdi(ay) {
+      var aylar = [
+        "Ocak",
+        "Şubat",
+        "Mart",
+        "Nisan",
+        "Mayıs",
+        "Haziran",
+        "Temmuz",
+        "Ağustos",
+        "Eylül",
+        "Ekim",
+        "Kasım",
+        "Aralık",
+      ];
+      return aylar[ay - 1];
+    }
+
+    return tarihIfadesi;
+  }
   const handleCommentEditSubmit = (comment) => {
     if (comment.trim() === "") {
       message.warning("Boş yorum atılamaz !");
@@ -47,7 +96,6 @@ const Comment = ({
     setEditComment(comment);
     setEditDropdown(false);
   };
-  console.log(comment?.owner);
   const getLikedByOwner = (likedBy, userProfile) =>
     likedBy.includes(userProfile);
   return (
@@ -62,14 +110,12 @@ const Comment = ({
       <div className="flex flex-col gap-2 w-full">
         <div className="flex flex-col gap-1">
           <div className="font-semibold">{comment?.owner?.username}</div>
-          <div className="text-sm text-white/60">
-            {comment?.createdAt?.slice(0, 10)}
-          </div>
+          <div className="text-sm text-white/60">{tarihIfadesi}</div>
         </div>
         <p className="text-sm">{comment?.content}</p>
         <div className="flex items-center gap-4">
-          <div className="hover:text-[#b92727] cursor-pointer flex items-center gap-1">
-            {/* {userProfile ? (
+          {/* <div className="hover:text-[#b92727] cursor-pointer flex items-center gap-1">
+            {userProfile ? (
               <LikeHeart
                 liked={getLikedByOwner(likedBy, userProfile.id)}
                 label={likes + " likes"}
@@ -82,15 +128,15 @@ const Comment = ({
                 onClick={onLikeClick}
                 noAuth
               />
-            )} */}
-          </div>
+            )}
+          </div> */}
           {userProfile ? (
             <div
               onClick={() => {
                 setReplayDropdown(!replayDropdown);
                 setEditDropdown(false);
               }}
-              className="cursor-pointer flex items-center gap-1"
+              className="cursor-pointer flex items-center  gap-1"
             >
               <BsFillReplyAllFill /> Yanıtla
             </div>
@@ -120,7 +166,7 @@ const Comment = ({
                 onClick={() => setDeleteAlert(!deleteAlert)}
                 className="cursor-pointer flex items-center gap-1 hover:text-[#b92727]"
               >
-                <ImBin /> Sil
+                <BiSolidTrashAlt /> <span className="pt-[2px]"> Sil</span>
               </div>
             </>
           )}
@@ -167,7 +213,7 @@ const Comment = ({
               className="dark:bg-mainGrey bg-mainWhite text-textGray outline-none border-[1px] border-solid dark:border-lightGrey border-mainWhiteBorder rounded-md w-full h-full p-1 px-3 pr-14"
               type="text"
               placeholder="Yorum yap"
-              value={replayComment}
+              defaultValue={"@" + comment.owner.username + replayComment}
               onChange={(e) => setReplayComment(e.target.value)}
             />
             <button
@@ -183,10 +229,10 @@ const Comment = ({
       <Modal
         bodyStyle={{
           padding: 0,
-          backgroundColor: "#232626",
+          backgroundColor: "",
         }}
         closeIcon={null}
-        className="text-white  p-0"
+        className="text-white comment-report-modal"
         centered
         footer={null}
         open={deleteAlert}

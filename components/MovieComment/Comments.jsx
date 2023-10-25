@@ -218,7 +218,7 @@ const Comments = ({ belongsTo, comments, comment, setComment }) => {
 
   return (
     <div className="p-3 container">
-      <div className="bg-darkGrey rounded-lg :text-white   border-solid border-[1px] flex flex-col gap-5 relative border-mainGrey">
+      <div className="bg-mainBlack2 rounded-lg :text-white  px-5 border-solid border-[1px] flex flex-col gap-5 relative border-mainGrey pb-5">
         <div className="text-xl text-white font-semibold p-3">
           Yorumlar ({comment?.length})
         </div>
@@ -280,7 +280,7 @@ const Comments = ({ belongsTo, comments, comment, setComment }) => {
             }}
           >
             <input
-              className="dark:bg-mainGrey bg-mainWhite text-textGray outline-none border-[1px] border-solid border-mainWhiteBorder dark:border-lightGrey  rounded-md w-full h-full p-1 px-3 pr-10"
+              className="bg-mainBlack  text-textGray outline-none border-[1px] border-solid border-lightGrey  rounded-md w-full h-full p-1 px-3 pr-10"
               type="text"
               placeholder="Yorum yap"
               value={addcomment}

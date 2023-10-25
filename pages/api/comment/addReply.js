@@ -4,7 +4,6 @@ import dbConnect from "@/lib/dbConnect";
 import { message } from "antd";
 import { formatComment, isUser } from "@/utils/utils";
 import Comment from "@/models/Comment";
-import Post from "@/models/Post";
 
 const handle = async (req, res) => {
   try {

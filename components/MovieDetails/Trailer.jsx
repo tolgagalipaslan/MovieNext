@@ -10,10 +10,11 @@ import { Navigation } from "swiper/modules";
 import Title from "../ui/Title";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Button } from "antd";
+import { Button, Tooltip } from "antd";
 import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Tabs, ConfigProvider } from "antd";
+import { BsExclamationLg } from "react-icons/bs";
 const Trailer = ({ video, cast }) => {
   const [nextBtn, setNextBtn] = useState(null);
   const [prevBtn, setPrevBtn] = useState(null);
@@ -189,32 +190,42 @@ const Trailer = ({ video, cast }) => {
           <div className="container">
             <Title>Trailers & Featurette</Title>
           </div>
-          <ConfigProvider
-            theme={{
-              token: {
-                colorPrimaryBorder: "#ffc107",
-                colorBorderSecondary: "#ffc107",
-                colorBgContainer: "#ffc107",
-                colorPrimary: "#000",
-                margin: 0,
-              },
-              components: {
-                Tabs: {
-                  cardBg: `#fff`,
-                  cardGutter: 3,
-                  colorBorder: "#00b96b",
+          <div className="relative container !px-0">
+            <ConfigProvider
+              className="relative"
+              theme={{
+                token: {
+                  colorPrimaryBorder: "#ffc107",
+                  colorBorderSecondary: "#ffc107",
+                  colorBgContainer: "#ffc107",
+                  colorPrimary: "#000",
+                  margin: 0,
                 },
-              },
-            }}
-          >
-            <Tabs
-              className="container  "
-              type="card"
-              style={{ cardHeight: 10 }}
-              defaultActiveKey="1"
-              items={items}
-            />
-          </ConfigProvider>
+                components: {
+                  Tabs: {
+                    cardBg: `#fff`,
+                    cardGutter: 3,
+                    colorBorder: "#00b96b",
+                  },
+                },
+              }}
+            >
+              <Tabs
+                className="container  "
+                type="card"
+                style={{ cardHeight: 10 }}
+                defaultActiveKey="1"
+                items={items}
+              />
+            </ConfigProvider>
+            <div className="w-[40px] h-[40px] bg-[#ffc107] right-3 absolute top-0 rounded-t-md ">
+              <Tooltip placement="top" title={"Rapor Gonder"}>
+                <div className="w-full h-full">
+                  <BsExclamationLg className="w-full h-full items-center cursor-pointer justify-center flex  text-mainBlack hover:scale-75 duration-500" />
+                </div>
+              </Tooltip>
+            </div>
+          </div>
         </>
       ) : null}
     </div>
