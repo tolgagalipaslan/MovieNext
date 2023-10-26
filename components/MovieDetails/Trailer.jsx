@@ -10,17 +10,21 @@ import { Navigation } from "swiper/modules";
 import Title from "../ui/Title";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Button, Tooltip } from "antd";
+import { Button, Form, Input, Modal, Tooltip, message } from "antd";
 import { AndroidOutlined, AppleOutlined } from "@ant-design/icons";
 import { AiOutlineDown, AiOutlineUp } from "react-icons/ai";
 import { Tabs, ConfigProvider } from "antd";
 import { BsExclamationLg } from "react-icons/bs";
-const Trailer = ({ video, cast }) => {
+import { useSession } from "next-auth/react";
+import axios from "axios";
+const { TextArea } = Input;
+const Trailer = ({ video, cast, id }) => {
   const [nextBtn, setNextBtn] = useState(null);
   const [prevBtn, setPrevBtn] = useState(null);
+  const [isloaded, setIsloaded] = useState(false);
   const [disabledBtn, setDisabledBtn] = useState("prev");
   const [selectedVideo, setSelectedVideo] = useState(0);
-
+  const user = useSession();
   const swiperRef = useRef(null);
   const swiper = useSwiper();
   const handleGoToSlide = (index) => {
@@ -183,6 +187,25 @@ const Trailer = ({ video, cast }) => {
       ),
     },
   ];
+  const handleCancel = () => {
+    setIsloaded(false);
+  };
+  const onFinish = async (values) => {
+    try {
+      const res = await axios.post(`/api/report`, {
+        user: values.username,
+        report_title: values.title,
+        report_description: values.content,
+        report_movie: id,
+      });
+      //form.resetFields();
+      message.success(`Rapor başarıyla gönderildi!`);
+      setIsloaded(false);
+    } catch (error) {
+      message.error("Rapor gönderilirken bir hata oluştu!");
+      console.log(error);
+    }
+  };
   return (
     <div id="trailer-wrapper">
       {video?.length !== 0 ? (
@@ -218,7 +241,12 @@ const Trailer = ({ video, cast }) => {
                 items={items}
               />
             </ConfigProvider>
-            <div className="w-[40px] h-[40px] bg-[#ffc107] right-3 absolute top-0 rounded-t-md ">
+            <div
+              className="w-[40px] h-[40px] bg-[#ffc107] right-3 absolute top-0 rounded-t-md "
+              onClick={(e) => {
+                setIsloaded(true);
+              }}
+            >
               <Tooltip placement="top" title={"Rapor Gonder"}>
                 <div className="w-full h-full">
                   <BsExclamationLg className="w-full h-full items-center cursor-pointer justify-center flex  text-mainBlack hover:scale-75 duration-500" />
@@ -228,6 +256,85 @@ const Trailer = ({ video, cast }) => {
           </div>
         </>
       ) : null}
+      <div>
+        <Modal
+          bodyStyle={{
+            padding: 0,
+            backgroundColor: "",
+          }}
+          className="text-white comment-report-modal"
+          centered
+          footer={null}
+          open={isloaded}
+          onCancel={handleCancel}
+        >
+          <Form
+            name="wrap"
+            layout="vertical"
+            className="text-white"
+            labelAlign="left"
+            labelWrap
+            wrapperCol={{
+              flex: 1,
+            }}
+            colon={false}
+            style={{
+              maxWidth: 600,
+            }}
+            onFinish={onFinish}
+          >
+            <Form.Item
+              label={<div className="text-white">Kullanıcı Adı:</div>}
+              name="username"
+              className="text-white"
+              initialValue={user?.data?.user?.username}
+              rules={[
+                {
+                  required: true,
+                  message: "Kullanıcı adınızı giriniz!",
+                },
+              ]}
+            >
+              <Input defaultValue={user?.data?.user?.username} size="large" />
+            </Form.Item>
+            <Form.Item
+              label={<div className="text-white">Konu:</div>}
+              name="title"
+              className="text-white"
+              rules={[
+                {
+                  required: true,
+                  message: "Raporun bir konusu olmalı!",
+                },
+              ]}
+            >
+              <Input size="large" />
+            </Form.Item>
+
+            <Form.Item
+              label={<div className="text-white">İçerik:</div>}
+              name="content"
+              rules={[
+                {
+                  required: true,
+                  message: "Raporun bir içeriği olmalı!",
+                },
+              ]}
+            >
+              <TextArea rows={4} placeholder="Overview..." />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="w-full bg-blue-600 hover:bg-blue-500 duration-500 hover:scale-105"
+              >
+                Raporu Gönder
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
+      </div>
     </div>
   );
 };

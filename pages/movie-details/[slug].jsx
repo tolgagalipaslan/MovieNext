@@ -21,7 +21,7 @@ const MovieDetails = ({ movie, cast, video, comments }) => {
       <Banner video={video} movie={movie} cast={cast} />
       <CastList cast={cast} />
 
-      <Trailer video={video} cast={cast} />
+      <Trailer video={video} cast={cast} id={`65301cd3c11bb0f452ab3169`} />
 
       <Comments
         belongsTo={movieData?.id}

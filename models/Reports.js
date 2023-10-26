@@ -3,9 +3,8 @@ import mongoose, { models } from "mongoose";
 const reportsSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       required: true,
-      ref: "User",
     },
     report_title: {
       type: String,
@@ -13,6 +12,11 @@ const reportsSchema = new mongoose.Schema(
     },
     report_description: {
       type: String,
+      required: true,
+    },
+    report_movie: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Movie",
       required: true,
     },
   },

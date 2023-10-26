@@ -35,7 +35,6 @@ const EditMovie = () => {
         video_path: res.data?.movie_url,
         type: "Movie",
       });
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }

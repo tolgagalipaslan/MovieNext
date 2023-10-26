@@ -37,10 +37,8 @@ const Comment = ({
     setReplayDropdown(false);
   };
   useEffect(() => {
-    console.log(comment);
     const turkceTarihIfadesi = tarihSaatTurkce(comment?.createdAt);
     setTarihIfadesi(turkceTarihIfadesi);
-    console.log(turkceTarihIfadesi);
   }, []);
 
   function tarihSaatTurkce(tarihSaat) {
