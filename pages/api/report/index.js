@@ -6,8 +6,12 @@ const handler = async (req, res) => {
   await dbConnect();
   const { method } = req;
   if (method === "GET") {
-    const movies = await Reports.find();
-    res.status(200).json(movies);
+    try {
+      const movies = await Reports.find().populate(`report_movie`);
+      return res.status(200).json(movies);
+    } catch (error) {
+      return res.status(500).json({ error: "Internal Server Error" });
+    }
   } else if (method === "POST") {
     const { user, report_title, report_description, report_movie } =
       await req.body;
