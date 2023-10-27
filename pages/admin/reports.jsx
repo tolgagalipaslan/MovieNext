@@ -130,7 +130,7 @@ const Reports = () => {
     try {
       setDeleteLoading(true);
       success();
-      const res = await axios.post(`/api/movie`, {
+      const res = await axios.post(`/api/report/delete`, {
         id: id,
       });
       getAllMovie();

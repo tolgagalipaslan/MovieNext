@@ -15,13 +15,35 @@ const handler = async (req, res) => {
       });
       return;
     }
+    var filmAdi = movieData.movie.original_title;
+    var aciklama = movieOverview;
+    var oyuncuIsimleri = movieData?.cast?.cast?.map(function (actor) {
+      return actor.name;
+    });
+    var genres = movieData?.movie?.genres?.map(function (actor) {
+      return actor.name;
+    });
+    var tur = genres.join(", ");
+    var puan = movieData.movie.vote_average;
+    var vizyonTarihi = movieData.movie.release_date;
+    var oyuncular = oyuncuIsimleri.slice(0, 3).join(", "); // İlk üç oyuncuyu al
+    var metaAciklama = `${filmAdi} - ${aciklama}. Tür: ${tur}. IMDb Puanı: ${puan}. Vizyon Tarihi: ${vizyonTarihi}.`;
 
+    // Meta açıklamanın karakter sınırını kontrol et (150-160 karakter)
+    if (metaAciklama.length > 160) {
+      // Eğer meta açıklama sınırı aşılıyorsa, daha kısa bir sürümünü oluştur
+      metaAciklama = `${filmAdi} - ${aciklama.substring(
+        0,
+        100
+      )}... İzlemek için tıklayın!`;
+    }
     try {
       const saveMovie = new Movie({
         movie_id: movieId,
         movie_url: movieURL,
         movie_data: movieData,
         movie_overview: movieOverview,
+        movie_meta: metaAciklama,
       });
       await saveMovie.save();
       return res.status(201).json({

@@ -15,7 +15,7 @@ const Home = ({ artist, movies, tv }) => {
       <Head>
         <title>Ofenos Movies</title>
       </Head>
-      <div className="fixed left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-[-1] w-[80vh] aspect-square rounded-full blur-[150px] bg-mainWhite/50"></div>
+      <div className="fixed left-1/2 -translate-x-1/2 -translate-y-1/2 top-1/2 z-[-1] w-[80vh] aspect-square rounded-full blur-[550px] bg-mainWhite/50"></div>
       <Banner />
 
       <div className="flex flex-col pb-10">

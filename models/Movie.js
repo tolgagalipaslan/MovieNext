@@ -11,6 +11,10 @@ const movieSchema = new mongoose.Schema(
       type: String, // Veya uygun veri türünü kullanabilirsiniz
       required: true,
     },
+    movie_meta: {
+      type: String, // Veya uygun veri türünü kullanabilirsiniz
+      required: true,
+    },
     movie_data: {
       type: Object,
     },
