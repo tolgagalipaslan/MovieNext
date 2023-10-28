@@ -7,6 +7,7 @@ import {
   UnorderedListOutlined,
   PlayCircleOutlined,
   UserAddOutlined,
+  SnippetsOutlined,
 } from "@ant-design/icons";
 import { Router, useRouter } from "next/router";
 import { Button, Layout, Menu, theme } from "antd";
@@ -41,14 +42,14 @@ const AdminLayout = ({ children }) => {
         router.push("/admin/add-movie");
       },
     },
-    // {
-    //   key: "3",
-    //   icon: <UserAddOutlined />,
-    //   label: "Users",
-    //   onClick: () => {
-    //     router.push("/admin/user");
-    //   },
-    // },
+    {
+      key: "3",
+      icon: <SnippetsOutlined />,
+      label: "Top 10",
+      onClick: () => {
+        router.push("/admin/top_ten");
+      },
+    },
     {
       key: "4",
       icon: <UnorderedListOutlined />,
@@ -77,6 +78,8 @@ const AdminLayout = ({ children }) => {
       pathname === "/admin/edit-movie"
     ) {
       return "2";
+    } else if (pathname === "/admin/top_ten") {
+      return "3";
     } else if (pathname === "/admin/reports") {
       return "4";
     } else {
