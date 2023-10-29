@@ -39,7 +39,7 @@ const handler = async (req, res) => {
     // } catch (error) {
     //   return res.status(500).json({ error: "Internal Server Error" });
     // }
-    res.status(200).json({ message: "Movie has been deleted" });
+    return res.status(200).json({ message: "Movie has been deleted" });
   } else if (method === "PATCH") {
     // const { id, movie_url } = req.body;
     // try {

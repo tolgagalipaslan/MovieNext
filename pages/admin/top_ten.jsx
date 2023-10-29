@@ -21,6 +21,15 @@ const Top_ten = () => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const searchInput = useRef(null);
   const searchInputRef = useRef(null);
+  const [messageApi, contextHolder] = message.useMessage();
+  const success = () => {
+    messageApi.open({
+      type: "loading",
+      content: `
+      The transaction is being processed, please wait!`,
+      duration: 0,
+    });
+  };
   const handleSearch = async (e) => {
     if (e.target.value.trim() === "") {
       setSearchQuery(e.target.value.trim());
@@ -48,7 +57,7 @@ const Top_ten = () => {
       setDeleteLoading(false);
     } catch (error) {
       // Hata yakalama işlemleri burada yapılabilir
-      message.error("Bu film zaten top 10 da!");
+      message.error("Bu film zaten top 10 da veya Top10 dolu!");
       setDeleteLoading(false);
 
       console.error("Hata oluştu: ", error);
@@ -198,6 +207,24 @@ const Top_ten = () => {
       ),
     },
   ];
+  const deleteMovie = async (id) => {
+    try {
+      setDeleteLoading(true);
+      success();
+      const res = await axios.post(`/api/top_ten`, {
+        id: id,
+      });
+      getAllMovie();
+      messageApi.destroy();
+      message.success("The transaction was completed successfully");
+      setDeleteLoading(false);
+    } catch (error) {
+      console.log(error);
+      messageApi.destroy();
+      message.error(`An error occurred during the operation`);
+      setDeleteLoading(false);
+    }
+  };
   const onPageChange = (page) => {
     setCurrentPage(page);
   };

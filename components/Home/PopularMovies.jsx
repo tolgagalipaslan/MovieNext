@@ -27,18 +27,18 @@ const PopularMovies = ({ movies, watchListSlice, favoriteListSlice }) => {
   }, [width]);
   return (
     <div className="overflow-hidden">
-      <div className="container">
+      <div className="container   ">
         <Title>Popular Movies</Title>
         {isSmallScreenState ? (
-          <div className="flex gap-5 container overflow-auto pb-2 p-0  castlist-scroll ">
+          <div className="flex gap-5 container overflow-auto pb-2 p-0  castlist-scroll  ">
             {movies?.map(
               (movie, i) =>
-                movie?.backdrop_path && (
+                movie?.movie_data.movie.poster_path && (
                   <div key={i} className="h-[231px] aspect-[9/14] ">
                     <MovieCard
                       favoriteListSlice={favoriteListSlice}
                       watchListSlice={watchListSlice}
-                      movie={movie}
+                      movie={movie.movie_data.movie}
                     />
                   </div>
                 )
@@ -78,36 +78,36 @@ const PopularMovies = ({ movies, watchListSlice, favoriteListSlice }) => {
           >
             {movies?.map(
               (movie, i) =>
-                movie?.backdrop_path && (
+                movie?.movie_data?.movie?.poster_path && (
                   <SwiperSlide key={i}>
                     <MovieCard
                       favoriteListSlice={favoriteListSlice}
                       watchListSlice={watchListSlice}
-                      movie={movie}
+                      movie={movie.movie_data.movie}
                     />
                   </SwiperSlide>
                 )
             )}
             {movies?.map(
               (movie, i) =>
-                movie?.backdrop_path && (
+                movie?.movie_data?.movie?.poster_path && (
                   <SwiperSlide key={i}>
                     <MovieCard
                       favoriteListSlice={favoriteListSlice}
                       watchListSlice={watchListSlice}
-                      movie={movie}
+                      movie={movie.movie_data.movie}
                     />
                   </SwiperSlide>
                 )
             )}
             {movies?.map(
               (movie, i) =>
-                movie?.backdrop_path && (
+                movie?.movie_data?.movie?.poster_path && (
                   <SwiperSlide key={i}>
                     <MovieCard
                       favoriteListSlice={favoriteListSlice}
                       watchListSlice={watchListSlice}
-                      movie={movie}
+                      movie={movie.movie_data.movie}
                     />
                   </SwiperSlide>
                 )
