@@ -128,11 +128,11 @@ const Card = ({ movie, watchListSlice, favoriteListSlice }) => {
         <Image
           alt={movie?.title}
           className="object-cover object-center w-full h-full rounded-md"
-          src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie?.backdrop_path}`}
+          src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie?.poster_path}`}
           width={500}
           height={500}
           placeholder="blur"
-          blurDataURL={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie?.backdrop_path}`}
+          blurDataURL={`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie?.poster_path}`}
           loading="lazy"
         ></Image>
       </div>
